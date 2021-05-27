@@ -1,0 +1,160 @@
+<!--
+<h1> {{name}} {{surname}} </h1>
+<ul>
+  <li>Age: {{age}} </li>
+  <li>Email: {{email}} </li>
+  <li>Address:</li>
+  <li>{{address.street}} {{address.houseNo}}/{{address.flatNo}} </li>
+  <li>{{address.postalCode}} {{address.city}}</li>
+</ul>
+-->
+<div class="container mb-5 mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card mt-3" id="productId">
+        <div class="product-1 align-content-center p-2 text-center">
+          <img src="assets/telewizor.png" alt="" class="rounded" width="250">
+          <h2>Telewizor LG 55BX3LB</h2>
+          <div class="mt-3 info">
+            <span class="text1 d-block">Lorem ipsum ipsumipsum ipsum</span>
+            <span class="text1 ">lorem</span>
+          </div>
+          <div class="cost mt-3 text-dark">
+            <span>3 299.00zł</span>
+          </div>
+        </div>
+
+        <div class="tv p-2 text-center text-white mt-3 cursor">
+          <span class="text-uppercase">Dodaj do koszyka</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card mt-3" id="productInfoId">
+        <div class="product-1 align-content-center p-2">
+          <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <ul>
+                <h1> {{model}} </h1>
+                <li><b>Ekran:</b> {{screen}} </li>
+                <li><b>Smart TV:</b> {{smarttv}} </li>
+                <li><b>Android TV:</b> {{androidtv}} </li>
+                <li><b>Częstotliwość ekranu:</b> {{frequency}} </li>
+                <li><b>Złącza:</b> {{wire}} </li>
+                <li><b>Funkcje:</b> Wi-Fi: {{functions.wifi}}, Bluetooth: {{functions.bluetooth}}, USB: {{functions.usb}} </li>
+                <li><b>Kolor obudowy:</b> {{colored}} </li>
+                <!--
+                <li>{{address.street}} {{address.houseNo}}/{{address.flatNo}} </li>
+                <li>{{address.postalCode}} {{address.city}}</li>
+                <li>Address:</li>
+                <li>{{address.street}} {{address.houseNo}}/{{address.flatNo}} </li>
+                <li>{{address.postalCode}} {{address.city}}</li>-->
+              </ul>
+              <button class="btn btn-primary mx-4 px-4" id="editInfoButton" (click)="changeEditMode()" >Aktualizuj</button>
+            </div>
+            <div class="col-lg-6">
+              <div *ngIf="editMode">
+                <h1>Aktualizuj dane: </h1>
+                <form>
+                  <div>
+                    <label>Model: </label>
+                    <input type="text" [(ngModel)]="model" name="model">
+                  </div>
+                  <div>
+                    <label>Ekran: </label>
+                    <input type="text" [(ngModel)]="screen" name="screen">
+                  </div>
+                  <div>
+                    <label>Złącza: </label>
+                    <input type="text" [(ngModel)]="wire" name="wire">
+                  </div>
+                  <div>
+                    Funkcje:
+
+                    <ul>
+                      <li>
+                        <label>Wi-Fi: </label>
+                        <input type="text" [(ngModel)]="functions.wifi" name="wifi">
+                      </li>
+                      <li>
+                        <label> Bluetooth: </label>
+                        <input type="text" [(ngModel)]="functions.bluetooth" name="bluetooth">
+                      </li>
+                      <li>
+                        <label> USB: </label>
+                        <input type="text" [(ngModel)]="functions.usb" name="usb">
+                      </li>
+                    </ul>
+
+                  </div>
+                  <div>
+                    <label>Kolor obudowy: </label>
+                    <input type="text" [(ngModel)]="colored" name="colored">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <mat-tab-group dynamicHeight>
+    <mat-tab label="Opinie">
+      <div class="row">
+        <div class="col">
+          <div class="card mt-4">
+            <div class="card-body">
+              <form id="post" class="form-group" (submit)="addComment(comment.value)">
+                <input type ="text" name="title" placeholder="Wstaw komentarz..." class="form-control" #comment id="taskfield">
+                <div class="row">
+                  <div class="col-md-4 ml-auto">
+                    <button type="button" class="btn btn-success col-md-6 mt-2 mx-2" (click)="addComment(comment.value)">Opublikuj</button>
+                    <button type="button" class="btn btn-primary col-md-6 mt-2 mx-2" (click)="editComment();setButton($event.target, 'Zakończ moderowanie')" >Moderuj wpisy</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3" *ngFor="let comment of comments; let i = index; trackBy:trackByFn">
+        <div class="card-header">
+          <div class="row">
+            <div class="col">
+              <strong>Opinia użytkownika</strong>
+              <div class="p-3">
+                <img class="img-fluid mx-lg-4" src="assets/anonymo.jpg" alt="uzytkownik" width="55px" height="55px">
+              </div>
+            </div>
+            <div class="col">
+              {{comment}}
+              <div *ngIf="editModeButton">
+                <form>
+                  <div><br/>
+                    <label>Edycja wpisu:  </label>
+                    <input type="text" [(ngModel)]="comments[i]" name="comment">
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col">
+              <button (click)="deleteComment(comment)" class="btn btn-danger m-1" >Usun</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Informacje o produkcie" disabled> In progress.. </mat-tab>
+    <mat-tab label="Zadaj pytanie"> In progress..</mat-tab>
+  </mat-tab-group>
+</div>
+
+
+
